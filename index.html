@@ -1,358 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>JeenaFlix Player</title>
-
-<script src="https://www.youtube.com/iframe_api"></script>
-
-<style>
-body{
-  margin:0;
-  background:#000;
-  overflow:hidden;
-  font-family:Arial,sans-serif;
-}
-
-.player-container{
-  position:relative;
-  width:100vw;
-  height:100vh;
-  background:#000;
-  overflow:hidden;
-}
-
-.video-wrap{
-  position:absolute;
-  top:-18%;
-  left:-8%;
-  width:116%;
-  height:136%;
-  z-index:1;
-  pointer-events:none;
-}
-
-#player{
-  width:100%;
-  height:100%;
-}
-
-#player iframe{
-  pointer-events:none !important;
-}
-
-.brand{
-  position:absolute;
-  top:18px;
-  left:18px;
-  z-index:9999;
-  background:#e50914;
-  color:#fff;
-  padding:8px 14px;
-  border-radius:8px;
-  font-weight:900;
-}
-
-.center-play{
-  position:absolute;
-  inset:0;
-  z-index:9998;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,.18);
-  cursor:pointer;
-}
-
-.center-play.hide{
-  opacity:0;
-  pointer-events:none;
-}
-
-.big-play{
-  width:82px;
-  height:82px;
-  border-radius:50%;
-  background:#e50914;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.big-play svg{
-  width:44px;
-  height:44px;
-  fill:white;
-  margin-left:5px;
-}
-
-.player-controls{
-  position:absolute;
-  left:50%;
-  bottom:25px;
-  transform:translateX(-50%);
-  z-index:99999;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:rgba(0,0,0,.78);
-  padding:12px 16px;
-  border-radius:18px;
-}
-
-.ctrl-btn{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  border:none;
-  background:rgba(255,255,255,.18);
-  color:white;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.ctrl-btn:hover{
-  background:#e50914;
-}
-
-.ctrl-btn svg{
-  width:24px;
-  height:24px;
-  fill:white;
-}
-
-.play-main{
-  background:#e50914;
-}
-
-.end-cover{
-  position:absolute;
-  inset:0;
-  z-index:999999;
-  background:#000;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  color:#fff;
-}
-
-.end-cover.show{
-  display:flex;
-}
-
-.end-cover h2{
-  margin:0 0 18px;
-  font-size:26px;
-}
-
-.replay-btn{
-  background:#e50914;
-  color:white;
-  border:none;
-  padding:12px 24px;
-  border-radius:10px;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-@media(max-width:600px){
-  .player-controls{
-    bottom:18px;
-    gap:8px;
-    padding:10px;
-  }
-
-  .ctrl-btn{
-    width:42px;
-    height:42px;
-  }
-
-  .brand{
-    font-size:14px;
-  }
-}
-</style>
-</head>
-
-<body>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>JeenaFlix Player</title><script src="https://www.youtube.com/iframe_api"></script><style>
+body{margin:0;background:#000;overflow:hidden;font-family:Arial,sans-serif}.player-container{position:relative;width:100vw;height:100vh;background:#000;overflow:hidden}.video-wrap{position:absolute;top:-18%;left:-8%;width:116%;height:136%;z-index:1;pointer-events:none}#player{width:100%;height:100%}#player iframe{pointer-events:none!important}.brand{position:absolute;top:15px;left:15px;z-index:99999;background:#e50914;color:#fff;padding:8px 14px;border-radius:8px;font-weight:900;opacity:1;pointer-events:none;box-shadow:0 4px 15px rgba(0,0,0,.4)}.center-play{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,.18);z-index:9998;cursor:pointer}.center-play.hide{opacity:0;pointer-events:none}.big-play{width:85px;height:85px;border-radius:50%;background:#e50914;display:flex;justify-content:center;align-items:center}.big-play svg{width:44px;height:44px;fill:white;margin-left:5px}.bottom-panel{position:absolute;left:50%;bottom:20px;transform:translateX(-50%) translateY(35px);width:90%;max-width:900px;background:rgba(0,0,0,.82);padding:14px;border-radius:18px;z-index:99999;opacity:0;pointer-events:none;transition:.25s}.show-controls .bottom-panel{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}.time-row{display:flex;align-items:center;gap:10px;color:#fff;font-size:13px;margin-bottom:12px}.seekbar{flex:1;accent-color:#e50914;cursor:pointer}.controls-row{display:flex;justify-content:center;align-items:center;gap:12px}.ctrl-btn{width:46px;height:46px;border:none;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;display:flex;justify-content:center;align-items:center}.ctrl-btn:hover{background:#e50914}.ctrl-btn svg{width:24px;height:24px;fill:white}.play-main{background:#e50914}.tap-msg{position:absolute;top:50%;transform:translateY(-50%);z-index:999999;color:#fff;background:rgba(0,0,0,.6);padding:12px 18px;border-radius:30px;font-weight:bold;opacity:0;transition:.25s;pointer-events:none}.tap-msg.left{left:35px}.tap-msg.right{right:35px}.tap-msg.show{opacity:1}.end-cover{position:absolute;inset:0;background:#000;display:none;justify-content:center;align-items:center;flex-direction:column;z-index:999999;color:#fff}.end-cover.show{display:flex}.replay-btn{background:#e50914;color:#fff;border:none;padding:12px 22px;border-radius:10px;font-size:17px;cursor:pointer}@media(max-width:600px){.bottom-panel{width:94%;bottom:15px}.ctrl-btn{width:42px;height:42px}.brand{font-size:14px}}
+</style></head><body oncontextmenu="return false">
 
 <div id="container" class="player-container">
+<div class="video-wrap"><div id="player"></div></div>
+<div class="brand">JeenaFlix</div>
 
-  <div class="video-wrap">
-    <div id="player"></div>
-  </div>
+<div id="centerPlay" class="center-play" onclick="JFP.p(event)">
+<div class="big-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+</div>
 
-  <div class="brand">JeenaFlix</div>
+<div id="backMsg" class="tap-msg left">-10s</div>
+<div id="forwardMsg" class="tap-msg right">+10s</div>
 
-  <div id="centerPlay" class="center-play" onclick="togglePlayPause()">
-    <div class="big-play">
-      <svg viewBox="0 0 24 24">
-        <path d="M8 5v14l11-7z"></path>
-      </svg>
-    </div>
-  </div>
+<div class="bottom-panel">
+<div class="time-row">
+<span id="currentTime">00:00</span>
+<input type="range" id="seekbar" class="seekbar" min="0" max="100" value="0" step="0.1">
+<span id="duration">00:00</span>
+</div>
 
-  <div class="player-controls">
-    <button class="ctrl-btn" onclick="rewindVideo()" title="Back 10s">
-      <svg viewBox="0 0 24 24">
-        <path d="M11 18V6l-8.5 6L11 18zm.5-6l8.5 6V6l-8.5 6z"></path>
-      </svg>
-    </button>
+<div class="controls-row">
+<button class="ctrl-btn" onclick="JFP.r(event)"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6L11 18zm.5-6l8.5 6V6l-8.5 6z"/></svg></button>
 
-    <button id="playPauseBtn" class="ctrl-btn play-main" onclick="togglePlayPause()" title="Play/Pause">
-      <svg id="playIcon" viewBox="0 0 24 24">
-        <path d="M8 5v14l11-7z"></path>
-      </svg>
-      <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;">
-        <path d="M6 5h4v14H6zm8 0h4v14h-4z"></path>
-      </svg>
-    </button>
+<button class="ctrl-btn play-main" onclick="JFP.p(event)">
+<svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+<svg id="pauseIcon" viewBox="0 0 24 24" style="display:none"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+</button>
 
-    <button class="ctrl-btn" onclick="forwardVideo()" title="Forward 10s">
-      <svg viewBox="0 0 24 24">
-        <path d="M13 6v12l8.5-6L13 6zM4 6v12l8.5-6L4 6z"></path>
-      </svg>
-    </button>
+<button class="ctrl-btn" onclick="JFP.f(event)"><svg viewBox="0 0 24 24"><path d="M13 6v12l8.5-6L13 6zM4 6v12l8.5-6L4 6z"/></svg></button>
 
-    <button class="ctrl-btn" onclick="goFullscreen()" title="Fullscreen">
-      <svg viewBox="0 0 24 24">
-        <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
-      </svg>
-    </button>
-  </div>
+<button class="ctrl-btn" onclick="JFP.fs(event)"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+</div>
+</div>
 
-  <div id="endCover" class="end-cover">
-    <h2>Video Ended</h2>
-    <button class="replay-btn" onclick="replayVideo()">Replay</button>
-  </div>
-
+<div id="endCover" class="end-cover">
+<h2>Video Ended</h2>
+<button class="replay-btn" onclick="JFP.re(event)">Replay</button>
+</div>
 </div>
 
 <script>
-let player;
-let endCheckTimer;
-
-const centerPlay = document.getElementById("centerPlay");
-const playIcon = document.getElementById("playIcon");
-const pauseIcon = document.getElementById("pauseIcon");
-const endCover = document.getElementById("endCover");
-
-function onYouTubeIframeAPIReady(){
-  player = new YT.Player("player", {
-    videoId: "-Pkdo6_tEzg",
-    playerVars: {
-      autoplay: 0,
-      controls: 0,
-      disablekb: 1,
-      fs: 0,
-      rel: 0,
-      modestbranding: 1,
-      iv_load_policy: 3,
-      playsinline: 1
-    },
-    events: {
-      onStateChange: onPlayerStateChange
-    }
-  });
-}
-
-function togglePlayPause(){
-  if(!player) return;
-
-  endCover.classList.remove("show");
-
-  if(player.getPlayerState() === YT.PlayerState.PLAYING){
-    player.pauseVideo();
-  } else {
-    player.playVideo();
-  }
-}
-
-function rewindVideo(){
-  if(!player) return;
-  endCover.classList.remove("show");
-
-  const current = player.getCurrentTime();
-  player.seekTo(Math.max(current - 10, 0), true);
-}
-
-function forwardVideo(){
-  if(!player) return;
-
-  const current = player.getCurrentTime();
-  const duration = player.getDuration();
-
-  if(duration && current + 10 >= duration - 1){
-    stopAtEnd();
-  } else {
-    player.seekTo(current + 10, true);
-  }
-}
-
-function stopAtEnd(){
-  player.pauseVideo();
-  centerPlay.classList.add("hide");
-  playIcon.style.display = "block";
-  pauseIcon.style.display = "none";
-  endCover.classList.add("show");
-}
-
-function replayVideo(){
-  endCover.classList.remove("show");
-  player.seekTo(0, true);
-  player.playVideo();
-}
-
-function onPlayerStateChange(event){
-  if(event.data === YT.PlayerState.PLAYING){
-    centerPlay.classList.add("hide");
-    playIcon.style.display = "none";
-    pauseIcon.style.display = "block";
-
-    clearInterval(endCheckTimer);
-    endCheckTimer = setInterval(function(){
-      const current = player.getCurrentTime();
-      const duration = player.getDuration();
-
-      if(duration && current >= duration - 0.8){
-        clearInterval(endCheckTimer);
-        stopAtEnd();
-      }
-    }, 300);
-  } else {
-    clearInterval(endCheckTimer);
-
-    if(event.data === YT.PlayerState.PAUSED){
-      if(!endCover.classList.contains("show")){
-        centerPlay.classList.remove("hide");
-      }
-      playIcon.style.display = "block";
-      pauseIcon.style.display = "none";
-    }
-
-    if(event.data === YT.PlayerState.ENDED){
-      stopAtEnd();
-    }
-  }
-}
-
-function goFullscreen(){
-  const elem = document.getElementById("container");
-
-  if(elem.requestFullscreen){
-    elem.requestFullscreen();
-  } else if(elem.webkitRequestFullscreen){
-    elem.webkitRequestFullscreen();
-  } else if(elem.msRequestFullscreen){
-    elem.msRequestFullscreen();
-  }
-}
+(()=>{let P,T,E,H,S=!1,L=0,$=i=>document.getElementById(i),C=$("container"),B=$("seekbar"),CT=$("currentTime"),DT=$("duration"),PI=$("playIcon"),PA=$("pauseIcon"),CP=$("centerPlay"),EC=$("endCover"),BM=$("backMsg"),FM=$("forwardMsg");function VID(){return new URLSearchParams(location.search).get("v")||"7BrhwM_XCbg"}function FT(x){if(!x||isNaN(x))return"00:00";let h=Math.floor(x/3600),m=Math.floor((x%3600)/60),s=Math.floor(x%60);return h>0?`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`:`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}function U(){if(!P||S)return;let c=P.getCurrentTime(),d=P.getDuration();CT.innerText=FT(c);DT.innerText=FT(d);if(d)B.value=c/d*100}function SH(){C.classList.add("show-controls");clearTimeout(H);H=setTimeout(()=>{if(P&&P.getPlayerState()===YT.PlayerState.PLAYING)C.classList.remove("show-controls")},3000)}function MSG(e){e.classList.add("show");setTimeout(()=>e.classList.remove("show"),500)}window.onYouTubeIframeAPIReady=()=>{P=new YT.Player("player",{videoId:VID(),playerVars:{controls:0,rel:0,disablekb:1,iv_load_policy:3,playsinline:1,fs:0,modestbranding:1},events:{onReady:()=>{T=setInterval(U,500)},onStateChange:e=>{if(e.data===YT.PlayerState.PLAYING){CP.classList.add("hide");PI.style.display="none";PA.style.display="block";clearInterval(E);E=setInterval(()=>{let c=P.getCurrentTime(),d=P.getDuration();if(d&&c>=d-.8){clearInterval(E);P.pauseVideo();EC.classList.add("show")}},300)}else{clearInterval(E);PI.style.display="block";PA.style.display="none";if(!EC.classList.contains("show"))CP.classList.remove("hide")}}}})};C.addEventListener("click",e=>{if(e.target.closest(".bottom-panel")||e.target.closest(".center-play")||e.target.closest(".end-cover"))return;let n=Date.now(),D=n-L<300;L=n;SH();if(D){e.clientX>innerWidth/2?(JFP.f(),MSG(FM)):(JFP.r(),MSG(BM))}});B.addEventListener("input",()=>{S=!0;let d=P.getDuration(),t=B.value/100*d;CT.innerText=FT(t);SH()});B.addEventListener("change",()=>{let d=P.getDuration(),t=B.value/100*d;P.seekTo(t,!0);S=!1;SH()});window.JFP={p:e=>{if(e)e.stopPropagation();if(!P)return;EC.classList.remove("show");P.getPlayerState()===YT.PlayerState.PLAYING?P.pauseVideo():P.playVideo();SH()},r:e=>{if(e)e.stopPropagation();if(!P)return;P.seekTo(Math.max(P.getCurrentTime()-10,0),!0);SH()},f:e=>{if(e)e.stopPropagation();if(!P)return;let d=P.getDuration();P.seekTo(Math.min(P.getCurrentTime()+10,d),!0);SH()},re:e=>{if(e)e.stopPropagation();EC.classList.remove("show");P.seekTo(0,!0);P.playVideo();SH()},fs:e=>{if(e)e.stopPropagation();let x=C;x.requestFullscreen?x.requestFullscreen():x.webkitRequestFullscreen?x.webkitRequestFullscreen():x.msRequestFullscreen&&x.msRequestFullscreen();SH()}};document.addEventListener("keydown",e=>{if(e.ctrlKey||e.key==="F12")e.preventDefault()})})();
 </script>
-
-</body>
-</html>
+</body></html>
